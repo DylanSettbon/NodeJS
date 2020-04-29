@@ -1,0 +1,41 @@
+<%- include("_header") -%>
+
+<h1>Liste des vehicules (<%= vehicules.length %>)</h1>
+
+<div class="table-responsive-sm">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Marque</th>
+        <th>Modele</th>
+        <th>Plaque</th>
+        <th>Panne</th>
+        <th class="d-print-none">
+          <a class="btn btn-sm btn-success" href="/create">Ajouter</a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% for (const vehicule of vehicules) { %>
+        <tr>
+          <td><%= vehicule.id__b %></td>
+          <td><%= vehicule.marque__b %></td>
+          <td><%= vehicule.modele__b %></td>
+          <td><%= vehicule.plaque__b %></td>
+          <% if(vehicule.enPanne__b == 1 ){ %>
+            <td>En panne</td>
+          <% } else{ %>  
+            <td>Pas en panne</td>
+         <% } %>
+          <td class="d-print-none">
+            <a class="btn btn-sm btn-warning" href="/edit/<%= vehicule.id__b %>">Modifier</a>
+            <a class="btn btn-sm btn-danger" href="/delete/<%= vehicule.id__b  %>">Effacer</a>
+          </td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include("_footer") -%>
