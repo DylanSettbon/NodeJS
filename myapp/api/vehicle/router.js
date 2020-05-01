@@ -11,8 +11,7 @@ router.get('/', function (req, res) {
             res.status(400).json(err);
         }
         else {
-            res.json(rows);
-            res.sendStatus(200);
+            res.status(200).json(rows);
         }
     });
 });
@@ -24,14 +23,14 @@ router.get('/:id', function (req, res) {
                 res.status(400).json(err);
             }
             else {
-                res.json(rows);
-                res.sendStatus(200);
+                res.status(200).json(rows);
             }
         });
     } else {
         res.sendStatus(400);
     }
 });
+
 router.delete('/:id', function (req, res) {
     if (req.params.id) {
         Vehicle.deleted(req.params.id, function (err) {
@@ -39,8 +38,7 @@ router.delete('/:id', function (req, res) {
                 res.status(400).json(err);
             }
             else {
-                res.json({"message":"deleted"});
-                res.sendStatus(200);
+                res.status(200).json({ "message": "deleted" });
             }
         });
     } else {
@@ -48,21 +46,20 @@ router.delete('/:id', function (req, res) {
     }
 });
 
-
 router.patch("/:id", (req, res, next) => {
     if (req.params.id) {
-        var params=[req.body.marque__b, req.body.modele__b,req.body.plaque__b,req.params.id]
+        //req.body.id__b = req.params.id;
+        params = req.body;
+        params.id__b = req.params.id;
         Vehicle.updated(params, function (err) {
             if (err) {
                 res.status(400).json(err);
-            }
-            else {
-                res.json({
-                    "message":"success",
-                    "data": data,
-                    "id" : this.lastID
-                 });
-                res.sendStatus(200);
+            } else {
+                res.status(200).json({
+                    "message": "success",
+                    "data": req.body,
+                    "id__b": req.params.id,
+                });
             }
         });
     } else {
@@ -70,20 +67,19 @@ router.patch("/:id", (req, res, next) => {
     }
 })
 
-
 router.post('/', function (req, res) {
-    var errors=[]
-    if (!req.body.marque__b){
+    var errors = []
+    if (!req.body.marque__b) {
         errors.push("No Marque specified");
     }
-    if (!req.body.modele__b){
+    if (!req.body.modele__b) {
         errors.push("No Modele specified");
     }
-    if (!req.body.plaque__b){
+    if (!req.body.plaque__b) {
         errors.push("No Plaque specified");
     }
-    if (errors.length){
-        res.status(400).json({"error":errors.join(",")});
+    if (errors.length) {
+        res.status(400).json({ "error": errors.join(",") });
         return;
     }
     var data = {
@@ -91,16 +87,16 @@ router.post('/', function (req, res) {
         modele__b: req.body.modele__b,
         plaque__b: req.body.plaque__b,
     }
-    var params =[data.marque__b, data.modele__b, data.plaque__b]
-    Vehicle.add(params, function (err,result) {
+    var params = [data.marque__b, data.modele__b, data.plaque__b]
+    Vehicle.add(params, function (err, result) {
         if (err) {
             res.status(400).json(err);
         }
         else {
             res.json({
-               "message":"success",
-               "data": data,
-               "id" : this.lastID
+                "message": "success",
+                "data": data,
+                "id": this.lastID
             });
         }
     });
