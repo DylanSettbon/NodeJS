@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "npx nodemon app",
+    "start": "npx nodemon ./api/server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -12,6 +12,7 @@
   "dependencies": {
     "ejs": "^3.1.2",
     "express": "^4.17.1",
+    "express-list-endpoints": "^4.0.1",
     "sqlite3": "^4.2.0"
   }
 }
